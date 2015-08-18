@@ -13,7 +13,7 @@
 -- a default value. Has Applicative and Monad instances (unlike "Data.Map").
 ----------------------------------------------------------------------
 
-module Data.TotalMap (TMap,(!),tabulate,trim) where
+module Data.TotalMap (TMap,fromPartial,(!),tabulate,trim) where
 
 import Data.Monoid (Monoid(..))
 import Control.Applicative (Applicative(..),liftA2,(<$>))
@@ -30,6 +30,10 @@ import qualified Data.Set as S
 data TMap k v = TMap v (Map k v) deriving Functor
 
 -- The representation is a default value and a finite map for the rest.
+
+-- | Create a total map from a default value and a partial map.
+fromPartial :: a -> Map k a -> TMap k a
+fromPartial = TMap
 
 -- | Sample a total map. Semantic function.
 (!) :: Ord k => TMap k v -> k -> v
